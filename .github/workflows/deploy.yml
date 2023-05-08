@@ -16,9 +16,9 @@ jobs:
 
     # Defining Environment Variables at Job level
     env:
-      MONGODB_CLUSTER_ADDRESS: cluster0.adnqeau.mongodb.net
-      MONGODB_USERNAME: karan74jaiswal
-      MONGODB_PASSWORD: wCk8t5nQingCGSAZ
+      MONGODB_CLUSTER_ADDRESS: ${{secrets.MONGODB_CLUSTER_ADDRESS}}
+      MONGODB_USERNAME: ${{secrets.MONGODB_USERNAME}}
+      MONGODB_PASSWORD: ${{secrets.MONGODB_PASSWORD}}
       TEST_JOB_PASSWORD: kdhiybiufhunw_khbks
       PORT: 8080
     
