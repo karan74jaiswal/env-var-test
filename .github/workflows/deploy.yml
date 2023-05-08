@@ -4,12 +4,30 @@ on:
     branches:
       - main
       - dev
+
+# Defining Environment Variables at Workflow Level
+env:
+  ACTIONS_NAME: Testing-Deployment
+  MONGODB_DB_NAME: gha-demo
+
 jobs:
   test:
-    environment: testing
     runs-on: ubuntu-latest
+
+    # Defining Environment Variables at Job level
+    env:
+      MONGODB_CLUSTER_ADDRESS: cluster0.adnqeau.mongodb.net
+      MONGODB_DB_USERNAME: karan74jaiswal
+      MONGODB_DB_PASSWORD: wCk8t5nQingCGSAZ
+      TEST_JOB_PASSWORD: kdhiybiufhunw_khbks
+      PORT: 8080
+    
     steps:
       - name: Get Code
+
+        # Defining Environment variables at Step Level
+        env: 
+          Step_password: hoiwehiwlenilj
         uses: actions/checkout@v3
       - name: Cache dependencies
         uses: actions/cache@v3
@@ -19,15 +37,18 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Run server
-        run: npm start & npx wait-on http://127.0.0.1:XYZ
+        run: npm start & npx wait-on http://127.0.0.1:$PORT  # Using Environment Variables in run command. $Environment_VAriable
+                                                             # We can also use context syntax to use environment variables.
       - name: Run tests
         run: npm test
       - name: Output information
-        run: echo "..."
+      #using environmnet variables by context syntax. This is the ideal method for doing it
+        run: echo "MONGODB DATABASE NAME :${{env.MONGODB_DB_NAME}}" 
   deploy:
     needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Output information
         run: |        
-          echo "..."
+          echo "MONGODB USERNAME: ${{env.MONGODB_DB_USERNAME}}"
+          echo "MONGODB DATABASE NAME: $MONGODB_DB_NAME"
